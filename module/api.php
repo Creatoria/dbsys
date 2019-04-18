@@ -1,6 +1,6 @@
 <?php
 $mode = $_GET['mode'] ? $_GET['mode'] : NULL;
-const modules = array("auth");
+$modules = array("auth");
 if ($mode != NULL) {
     try {
         if (!in_array($mode, $modules))
