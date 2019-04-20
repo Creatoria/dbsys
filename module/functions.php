@@ -3,7 +3,7 @@ require_once("./vendor/autoload.php");
 
 function login($i, $j)
 {
-    session_start();
+
     $client = new MongoDB\Client("mongodb://localhost:27017");
     $collection = $client->testt->testt;
     $cursor = $collection->findOne(["u" => $i, 'b' => $j]);
@@ -13,11 +13,16 @@ function login($i, $j)
         $token = "aehbibuiabs3893yh=="; //setToken needed
         $_SESSION['user'] = $i;
         $_SESSION['token'] = $token;
+        setcookie("user", $i, time() + 24 * 60);
+        setcookie("token", $token, time() + 24 * 60);
         $arr = ['success' => 1, 'msg' => 'success', 'token' => $token];
     }
     return json_encode($arr);
 }
-function logout($user)
+function logout()
 {
-    unset($_SESSION);
+    session_destroy();
+    setcookie('user', NULL);
+    setcookie('token', null);
+    echo json_encode(['success' => 1, 'msg' => 'logout success']);
 }
