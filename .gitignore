@@ -23,7 +23,7 @@ yarn-error.log*
 *.sw?
 
 # composer packages
-module/vendor 
+api/vendor 
 
 #test file
-module/sess
+api/sess

@@ -1,5 +1,5 @@
 <?php
-require_once("./vendor/autoload.php");
+require_once("../vendor/autoload.php");
 
 function login($i, $j)
 {
@@ -10,7 +10,7 @@ function login($i, $j)
     if ($cursor === NULL)
         $arr = ['success' => 0, 'msg' => 'failed'];
     else {
-        $token = "aehbibuiabs3893yh=="; //setToken needed
+        $token = "aehbibuiabs3893yh=="; //TODO:gen_Token needed
         $_SESSION['user'] = $i;
         $_SESSION['token'] = $token;
         setcookie("user", $i, time() + 24 * 60);
@@ -25,4 +25,8 @@ function logout()
     setcookie('user', NULL);
     setcookie('token', null);
     echo json_encode(['success' => 1, 'msg' => 'logout success']);
+}
+function genToken()
+{
+    return "";
 }

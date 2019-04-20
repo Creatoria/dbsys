@@ -1,4 +1,5 @@
 <?php
+//TODO:anti-inject method needed
 $mode = $_GET['mode'] ? $_GET['mode'] : NULL;
 $modules = array("login", 'logout');
 if ($mode != NULL) {
@@ -6,7 +7,7 @@ if ($mode != NULL) {
         if (!in_array($mode, $modules))
             throw new Exception();
         session_start();
-        include_once("./$mode.php");
+        include_once("./modules/module_$mode.php");
     } catch (Exception $e) {
 
         echo json_encode(['success' => 0, 'msg' => 'unknown option']);

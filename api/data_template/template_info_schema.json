@@ -1,0 +1,29 @@
+{
+    "_id": {
+        "oid": ""
+    },
+    "uid": "",
+    "info": {
+        "name": "",
+        "sex": "",
+        "age": "",
+        "birth": "",
+        "home": "",
+        "major": "",
+        "class": "",
+        "contact": ""
+    },
+    "grades": [{
+        "course_name": "",
+        "course_id": "",
+        "semester": "",
+        "grade": ""
+    }, {
+        "course_name": "",
+        "course_id": "",
+        "semester": "",
+        "grade": ""
+    }],
+    "last_update": "",
+    "remark": ""
+}
