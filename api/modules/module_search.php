@@ -1,5 +1,5 @@
 <?php
 $key = $_GET['key'];
-include_once("./module_manage_functions.php");
+include_once("./module_functions_manage.php");
 $res = search($key);
 echo $res;

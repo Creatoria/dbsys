@@ -1,3 +1,11 @@
-{
-
-}
+[{
+    "oid": "",
+    "name": "",
+    "credit": "",
+    "teacher_id": "ref teacher"
+}, {
+    "oid": "",
+    "name": "",
+    "credit": "",
+    "teacher_id": ""
+}]

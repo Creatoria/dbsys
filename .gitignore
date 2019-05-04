@@ -1,8 +1,10 @@
-/test
-
 .DS_Store
 node_modules
 /dist
+/test
+/api/vendor
+/api/sess
+
 
 # local env files
 .env.local
@@ -21,9 +23,3 @@ yarn-error.log*
 *.njsproj
 *.sln
 *.sw?
-
-# composer packages
-api/vendor 
-
-#test file
-api/sess

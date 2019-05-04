@@ -1,0 +1,32 @@
+[{
+    "user": "account_checker",
+    "roles": [{
+        "role": "read",
+        "db": "accounts"
+    }],
+    "description": "登录验证时 权限验证时"
+}, {
+    "user": "sys_root",
+    "roles": [{
+        "role": "dbAdmin",
+        "db": "accounts"
+    }, {
+        "role": "dbAdmin",
+        "db": "any related"
+    }],
+    "description": "本系统root用户赋予"
+}, {
+    "user": "api_reader",
+    "roles": [{
+        "role": "read",
+        "db": "data"
+    }],
+    "description": "普通用户读取时"
+}, {
+    "user": "api_writer",
+    "roles": [{
+        "role": "write",
+        "db": "data"
+    }],
+    "description": "普通用户编辑时"
+}]
