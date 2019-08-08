@@ -1,19 +1,17 @@
 <?php
-//TODO:anti-inject method needed
 error_reporting(0);
-$mode = $_GET['mode'] ? $_GET['mode'] : NULL;
-$modules = array("login", 'logout', 'search');
-if ($mode != NULL) {
+$opt = $_GET['opt'] ? $_GET['opt'] : NULL;
+$modules = array("login", 'logout', 'query');
+if ($opt != NULL) {
     try {
-        if (!in_array($mode, $modules))
+        if (!in_array($opt, $modules))
             throw new Exception();
         session_start();
-        include_once("./modules/module_$mode.php");
+        include_once("./vendor/autoload.php");
+        include_once("./modules/module_functions.php");
+        include_once("./modules/module_$opt.php");
     } catch (Exception $e) {
-
         echo json_encode(['success' => 0, 'msg' => 'unknown option']);
-        header("HTTP/1.1 404 Not Found ");
-        header("Status: 404 Not Found");
     }
 } else {
     echo json_encode(['success' => 0, 'msg' => 'no option specified']);
