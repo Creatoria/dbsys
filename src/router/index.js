@@ -147,6 +147,20 @@ export const constantRoutes = [
       }
     ]
   },
+  {
+    path: '/sysdata',
+    component: Layout,
+    name: 'sysdata',
+    redirect:'/sysdata',
+    meta: { title: 'sysdata' },
+    children:[
+      {
+        path:"index",
+        component:()=>import('@/views/sysdata/index'),
+        meta:{title:'index'}
+      }
+    ]
+  },
 
   {
     path: 'external-link',
@@ -172,7 +186,7 @@ const createRouter = () => new Router({
 const router = createRouter()
 
 // Detail see: https://github.com/vuejs/vue-router/issues/1234#issuecomment-357941465
-export function resetRouter() {
+export function resetRouter () {
   const newRouter = createRouter()
   router.matcher = newRouter.matcher // reset router
 }

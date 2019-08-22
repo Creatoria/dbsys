@@ -24,8 +24,6 @@ function check_auth()
 
 function login($i, $j)
 {
-
-
     $coll = connect('dbReader', 'users', 'users');
     $cursor = $coll->findOne(['user' => $i, 'password' => $j]);
     if ($cursor === NULL)
@@ -35,7 +33,6 @@ function login($i, $j)
         $_SESSION['user'] = $i;
         $_SESSION['token'] = $token;
         $_SESSION['role'] = $cursor['role'];
-        setcookie("user", $i, time() + 24 * 60);
         setcookie("token", $token, time() + 24 * 60);
         $arr = ['code' => 20000];
     }
@@ -44,7 +41,6 @@ function login($i, $j)
 function logout()
 {
     session_destroy();
-    setcookie('user', NULL);
     setcookie('token', null);
     return json_encode(['code' => 20000]);
 }
@@ -99,4 +95,20 @@ function delete_one($user, $db, $collection, $target)
     } else {
         return json_encode(['code' => 0]);
     }
+}
+
+function insertMany($user, $db, $collection, $targets){
+
+}
+function insertStudents($targets){
+    insertMany('root','students','student',$targets);
+}
+function insertGrades($ars){
+    insertMany('root','grades','grade',$ars);
+}
+function insertTeachers($targets){
+
+}
+function insertClasses($targets){
+    
 }
