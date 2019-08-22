@@ -5,9 +5,9 @@ function genToken()
 }
 function connect($user, $db, $collection)
 {
-    global $db_users;
+    global $dbConfig;
     $conn = new MongoDB\Client(
-        "mongodb://" . $db_users[$user]['user'] . ":" . $db_users[$user]['password'] . "@localhost/" . $db_users['auth_server']
+        "mongodb://" . $dbConfig[$user]['user'] . ":" . $dbConfig[$user]['password'] . "@" . $dbConfig['dbAddress'] . "/" . $dbConfig['auth_server']
     );
     $coll = $conn->selectDatabase($db)->selectCollection($collection);
     return $coll;
@@ -29,7 +29,7 @@ function login($i, $j)
     $coll = connect('dbReader', 'users', 'users');
     $cursor = $coll->findOne(['user' => $i, 'password' => $j]);
     if ($cursor === NULL)
-        $arr = ['success' => 0];
+        $arr = ['code' => 0];
     else {
         $token = genToken();
         $_SESSION['user'] = $i;
@@ -37,7 +37,7 @@ function login($i, $j)
         $_SESSION['role'] = $cursor['role'];
         setcookie("user", $i, time() + 24 * 60);
         setcookie("token", $token, time() + 24 * 60);
-        $arr = ['success' => 1];
+        $arr = ['code' => 20000];
     }
     return json_encode($arr);
 }
@@ -46,7 +46,7 @@ function logout()
     session_destroy();
     setcookie('user', NULL);
     setcookie('token', null);
-    return json_encode(['success' => 1]);
+    return json_encode(['code' => 20000]);
 }
 function query($user, $db, $collection, $target)
 {
@@ -54,11 +54,11 @@ function query($user, $db, $collection, $target)
         $coll = connect($user, $db, $collection);
         $res = $coll->findOne($target);
         if ($res !== null)
-            return json_encode(['results' => $res, 'success' => 1]);
+            return json_encode(['results' => $res, 'code' => 20000]);
         else
-            return json_encode(['success' => 0]);
+            return json_encode(['code' => 0]);
     } else {
-        return json_encode(['success' => 0]);
+        return json_encode(['code' => 0]);
     }
 }
 function insert_one($user, $db, $collection, $ar)
@@ -67,11 +67,11 @@ function insert_one($user, $db, $collection, $ar)
         $coll = connect($user, $db, $collection);
         $res = $coll->insertOne($ar);
         if ($res !== null)
-            return json_encode(['success' => 1]);
+            return json_encode(['code' => 20000]);
         else
-            return json_encode(['success' => 0]);
+            return json_encode(['code' => 0]);
     } else {
-        return json_encode(['success' => 0]);
+        return json_encode(['code' => 0]);
     }
 }
 function update_one($user, $db, $collection, $target, $ar)
@@ -82,9 +82,9 @@ function update_one($user, $db, $collection, $target, $ar)
         if ($res !== null)
             return json_encode($res);
         else
-            return json_encode(['success' => 0]);
+            return json_encode(['code' => 0]);
     } else {
-        return json_encode(['success' => 0]);
+        return json_encode(['code' => 0]);
     }
 }
 function delete_one($user, $db, $collection, $target)
@@ -93,10 +93,10 @@ function delete_one($user, $db, $collection, $target)
         $coll = connect($user, $db, $collection);
         $res = $coll->findOneAndDelete($target);
         if ($res !== null)
-            return json_encode(['success' => 1]);
+            return json_encode(['code' => 20000]);
         else
-            return json_encode(['success' => 0]);
+            return json_encode(['code' => 0]);
     } else {
-        return json_encode(['success' => 0]);
+        return json_encode(['code' => 0]);
     }
 }

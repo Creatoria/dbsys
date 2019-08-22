@@ -1,6 +1,7 @@
 <?php
-$db_users = array(
-    'auth_server' => 'test',
+$dbConfig = array(
+    'dbAddress' => 'localhost',
+    'authDB' => 'test',
     "dbReader" => array(
         "user" => "dbReader",
         "password" => "reader"

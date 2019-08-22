@@ -2,7 +2,7 @@
 error_reporting(0);
 $debug = true;
 $opt = $_GET['opt'] ? $_GET['opt'] : NULL;
-$modules = array("login", 'logout', 'query');
+$modules = array("login", 'logout', 'query', 'delete', 'update', 'insert');
 if ($opt != NULL) {
     try {
         if (!in_array($opt, $modules))
