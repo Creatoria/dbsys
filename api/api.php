@@ -1,45 +1,40 @@
 <?php
-error_reporting(0);
+// error_reporting(0);
 $debug = true;
-$opt = $_GET['opt'] ? $_GET['opt'] : NULL;
-$modules = array("login", 'logout', 'query', 'delete', 'update', 'insert');
-if ($opt != NULL) {
+$opt = isset($_GET['opt']) ? $_GET['opt'] : NULL;
+$subopt = isset($_GET['subopt']) ? $_GET['subopt'] : NULL;
+$modules = array(
+    'user' => array(
+        'login',
+        'logout',
+        'getinfo'
+    ), 'admin' => array(
+        'getconfig',
+        'setconfig',
+        'getallgrade',
+        'getallcourse',
+        'getallstudent',
+        'getallteacher',
+        'insert',
+        'edit',
+        'delete'
+    ), 'stu' => array(
+        'getgrade'
+    )
+);
+if (1) {
     try {
-        if (!in_array($opt, $modules))
-            throw new Exception();
+        if (!in_array($subopt, $modules[$opt])) {
+            throw new Exception('no');
+        }
         session_start();
         include_once("./vendor/autoload.php");
         include_once("./config/config.php");
-        include_once("./modules/functions.php");
+        include_once("./modules/procedures_$opt.php");
+        echo eval($subopt());
     } catch (Exception $e) {
-        echo json_encode(['success' => 0]);
+        echo json_encode(['success' => 0, 'mess' => $e]);
     }
 } else {
     echo json_encode(['success' => 0]);
-}
-extract($_GET);
-$role = $_SESSION['role'];
-if (!check_auth())
-    echo json_encode(['success' => 0]);
-else {
-    switch ($opt) {
-        case 'query':
-            echo query($role, $db, $collection, $target);
-            break;
-        case 'delete':
-            echo delete_one($role, $db, $collection, $target);
-            break;
-        case 'update':
-            echo update_one($role, $db, $collection, $target, $ar);
-            break;
-        case 'insert':
-            echo insert_one($role, $db, $collection, $target);
-            break;
-        case 'login':
-            echo login($user, $password);
-            break;
-        case 'logout':
-            echo logout();
-            break;
-    }
 }

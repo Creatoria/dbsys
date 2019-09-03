@@ -1,10 +1,12 @@
 
 const tokens = {
   admin: {
-    token: 'admin-token'
+    token: 'admin-token',
+    roles:['admin']
   },
-  editor: {
-    token: 'editor-token'
+  student: {
+    token: 'student-token',
+    roles: ['student'],
   }
 }
 
@@ -15,11 +17,11 @@ const users = {
     avatar: 'https://wpimg.wallstcn.com/f778738c-e4f8-4870-b634-56703b4acafe.gif',
     name: 'Super Admin'
   },
-  'editor-token': {
-    roles: ['editor'],
-    introduction: 'I am an editor',
+  'student-token': {
+    roles: ['student'],
+    introduction: 'I am an student',
     avatar: 'https://wpimg.wallstcn.com/f778738c-e4f8-4870-b634-56703b4acafe.gif',
-    name: 'Normal Editor'
+    name: 'Normal student'
   }
 }
 

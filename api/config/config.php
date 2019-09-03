@@ -1,4 +1,8 @@
 <?php
+const userLevel=array(
+    'root'=>0,
+    'student'=>2
+);
 $dbConfig = array(
     'dbAddress' => 'localhost',
     'authDB' => 'test',
