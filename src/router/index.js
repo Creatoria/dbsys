@@ -154,9 +154,9 @@ export const constantRoutes = [
 
     children: [
       {
-        path: "index",
-        name: "admin_config",
-        component: () => import('@/views/admin_config/index'),
+        path: 'index',
+        name: 'admin_config',
+        component: () => import('@/views/admin_config/index')
       }
     ]
   },
@@ -171,6 +171,18 @@ export const constantRoutes = [
       path: 'index',
       component: () => import('@/views/manage_score/index'),
       meta: { title: '成绩管理', role: ['admin'] }
+    }
+    ]
+  },  {
+    path: '/students',
+    component: Layout,
+    name: 'students',
+    redirect: '/students',
+    meta: { roles: ['admin'], icon: 'example' },
+    children: [{
+      path: 'index',
+      component: () => import('@/views/manage_student/index'),
+      meta: { title: '学生管理', role: ['admin'] }
     }
     ]
   },
@@ -189,7 +201,7 @@ const createRouter = () => new Router({
 const router = createRouter()
 
 // Detail see: https://github.com/vuejs/vue-router/issues/1234#issuecomment-357941465
-export function resetRouter () {
+export function resetRouter() {
   const newRouter = createRouter()
   router.matcher = newRouter.matcher // reset router
 }
