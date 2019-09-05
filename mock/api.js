@@ -17,7 +17,7 @@ const gradesData = Mock.mock({
     'grade|1-100': 100
   }]
 })
-const teacheresData = Mock.mock({
+const teachersData = Mock.mock({
   'items|30': [{
     teacherid: "@id",
     name: '@cname',
@@ -28,8 +28,8 @@ const teacheresData = Mock.mock({
 const coursesData = Mock.mock({
   'items|30': [{
     courseid: "@id",
-    name: '@cname',
-    type: '@word',
+    name: '@word',
+    "type|1": ['必修', "选修"],
     credit: "@float(0.5,5,0,1)"
 
   }]

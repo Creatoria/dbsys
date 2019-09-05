@@ -2,7 +2,7 @@
 const tokens = {
   admin: {
     token: 'admin-token',
-    roles:['admin']
+    roles: ['admin']
   },
   student: {
     token: 'student-token',

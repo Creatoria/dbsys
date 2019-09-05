@@ -1,16 +1,16 @@
 <template>
   <div class="app-container">
     <el-row :gutter="20">
-      <el-col :span="6">
-        <el-input placeholder="请输入姓名"
+      <el-col :span="5">
+        <el-input placeholder="请输入姓名以搜索"
                   v-model="searchField.studentname"
                   clearable="">
 
         </el-input>
       </el-col>
-      <el-col :span="6">
+      <el-col :span="5">
 
-        <el-input placeholder="请输入班级"
+        <el-input placeholder="请输入班级以搜索"
                   v-model="searchField.class"
                   clearable="">
 
@@ -19,7 +19,7 @@
       <el-col :span="4">
 
         <el-select v-model="searchField.sex"
-                   placeholder="请选择性别"
+                   placeholder="请选择性别以搜索"
                    clearable=""
                    style="width:100%">
           <el-option value="男">男</el-option>
@@ -28,15 +28,22 @@
       </el-col>
       <el-col :span="6">
 
-        <el-input placeholder="请输入学号"
+        <el-input placeholder="请输入学号以搜索"
                   v-model="searchField.stuid"
                   clearable="">
 
         </el-input>
       </el-col>
       <el-col :span="2">
-        <el-button @click="addDialogVisible=true">添加</el-button>
+        <el-button @click="addDialogVisible=true"
+                   icon="el-icon-circle-plus-outline">添加</el-button>
       </el-col>
+      <el-col :span="2">
+        <el-button icon="el-icon-refresh"
+                   type="primary"
+                   @click="fetchData"></el-button>
+      </el-col>
+
     </el-row>
     <el-row>
       <el-table :data="filtedData"
@@ -60,9 +67,11 @@
 
         <el-table-column label='操作'>
           <template slot-scope="scope">
-            <el-button @click="edit(scope.row)">编辑</el-button>
+            <el-button @click="edit(scope.row)"
+                       icon="el-icon-edit">编辑</el-button>
             <el-button type="danger"
-                       @click="confirmDel(scope)">删除</el-button>
+                       @click="confirmDel(scope)"
+                       icon="el-icon-delete">删除</el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -174,6 +183,9 @@
 </template>
 <script>
 import { getAllStudents, postReq } from "@/api/api";
+import { mapGetters } from "vuex";
+import { MessageBox, Message } from "element-ui";
+
 export default {
   data() {
     return {
@@ -200,7 +212,17 @@ export default {
     };
   },
   created() {
-    this.fetchData();
+    if (this.$store.getters.role.indexOf("admin") >= 0) {
+      this.fetchData();
+    } else {
+      MessageBox.confirm("没有权限访问此页面", {
+        type: "warning",
+        showClose: false,
+        showCancelButton: false
+      }).then(() => {
+        this.$router.go(-1);
+      });
+    }
   },
   computed: {
     filtedData() {

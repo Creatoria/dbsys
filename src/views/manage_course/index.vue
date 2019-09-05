@@ -2,26 +2,29 @@
   <div class="app-container">
     <el-row :gutter="20">
       <el-col :span="6">
-
-        <el-input placeholder="请输入姓名以搜索"
-                  v-model="searchField.studentname"
+        <el-input placeholder="请输入课程号以搜索"
+                  v-model="searchField.courseid"
                   clearable="">
 
         </el-input>
       </el-col>
       <el-col :span="6">
-        <el-input placeholder="请输入课程以搜索"
-                  v-model="searchField.coursename"
+
+        <el-input placeholder="请输入课程名以搜索"
+                  v-model="searchField.name"
                   clearable="">
 
         </el-input>
       </el-col>
-      <el-col :span="6">
-        <el-input placeholder="请输入学号以搜索"
-                  v-model="searchField.stuid"
-                  clearable="">
+      <el-col :span="4">
 
-        </el-input>
+        <el-select v-model="searchField.type"
+                   placeholder="请选择课程性质以搜索"
+                   clearable=""
+                   style="width:100%">
+          <el-option value="必修">必修</el-option>
+          <el-option value="选修">选修</el-option>
+        </el-select>
       </el-col>
       <el-col :span="2">
         <el-button @click="addDialogVisible=true"
@@ -32,7 +35,6 @@
                    type="primary"
                    @click="fetchData"></el-button>
       </el-col>
-
     </el-row>
     <el-row>
       <el-table :data="filtedData"
@@ -41,18 +43,19 @@
                 border
                 fit
                 highlight-current-row>
-        <el-table-column label="课程">
-          <template slot-scope="scope">{{scope.row.coursename}}</template>
+        <el-table-column label="课程号">
+          <template slot-scope="scope">{{scope.row.courseid}}</template>
         </el-table-column>
-        <el-table-column label="学号">
-          <template slot-scope="scope">{{scope.row.stuid}}</template>
+        <el-table-column label="课程名">
+          <template slot-scope="scope">{{scope.row.name}}</template>
         </el-table-column>
-        <el-table-column label="姓名">
-          <template slot-scope="scope">{{scope.row.studentname}}</template>
+        <el-table-column label="性质">
+          <template slot-scope="scope">{{scope.row.type}}</template>
         </el-table-column>
-        <el-table-column label="成绩">
-          <template slot-scope="scope">{{scope.row.grade}}</template>
+        <el-table-column label="学分">
+          <template slot-scope="scope">{{scope.row.credit}}</template>
         </el-table-column>
+
         <el-table-column label='操作'>
           <template slot-scope="scope">
             <el-button @click="edit(scope.row)"
@@ -79,36 +82,38 @@
     <el-dialog title="编辑"
                :visible.sync="editDialogVisible">
       <el-form>
+
         <el-row>
           <el-form-item label="课程号">
             <el-input v-model="tmp.courseid"
-                      disabled=""></el-input>
-          </el-form-item>
-        </el-row>
-        <el-row>
-          <el-form-item label="课程">
-            <el-input v-model="tmp.coursename"
-                      disabled=""></el-input>
-          </el-form-item>
-        </el-row>
-        <el-row>
-          <el-form-item label="学号">
-            <el-input v-model="tmp.stuid"
-                      disabled=""></el-input>
-          </el-form-item>
-        </el-row>
-        <el-row>
-          <el-form-item label="姓名">
-            <el-input v-model="tmp.studentname"
-                      disabled=""></el-input>
-          </el-form-item>
-        </el-row>
-        <el-row>
-          <el-form-item label="成绩">
-            <el-input v-model="tmp.grade"
                       clearable=""></el-input>
           </el-form-item>
         </el-row>
+        <el-row>
+          <el-form-item label="课程名">
+            <el-input v-model="tmp.name"
+                      clearable=""></el-input>
+          </el-form-item>
+        </el-row>
+        <el-row>
+          <el-form-item label="性质">
+            <el-select v-model="tmp.type"
+                       clearable="">
+              <el-option value="必修">必修</el-option>
+              <el-option value="选修">选修</el-option>
+
+            </el-select>
+          </el-form-item>
+        </el-row>
+        <el-row>
+          <el-form-item label="学分">
+            <el-input v-model="tmp.credit"
+                      clearable="">
+
+            </el-input>
+          </el-form-item>
+        </el-row>
+
       </el-form>
       <div slot="footer"
            class="dialog-footer">
@@ -131,27 +136,31 @@
       <el-form>
         <el-row>
           <el-form-item label="课程号">
-            <el-input v-model="tmp.courseid"></el-input>
+            <el-input v-model="tmp.stuid"
+                      clearable=""></el-input>
           </el-form-item>
         </el-row>
         <el-row>
-          <el-form-item label="课程">
-            <el-input v-model="tmp.coursename"></el-input>
+          <el-form-item label="课程名">
+            <el-input v-model="tmp.name"
+                      clearable=""></el-input>
           </el-form-item>
         </el-row>
         <el-row>
-          <el-form-item label="学号">
-            <el-input v-model="tmp.stuid"></el-input>
+          <el-form-item label="性质">
+            <el-select v-model="tmp.class"
+                       clearable="">
+              <el-option value="必修">必修</el-option>
+              <el-option value="选修">选修</el-option>
+            </el-select>
           </el-form-item>
         </el-row>
         <el-row>
-          <el-form-item label="姓名">
-            <el-input v-model="tmp.studentname"></el-input>
-          </el-form-item>
-        </el-row>
-        <el-row>
-          <el-form-item label="成绩">
-            <el-input v-model="tmp.grade"></el-input>
+          <el-form-item label="学分">
+            <el-input v-model="tmp.credit"
+                      clearable="">
+
+            </el-input>
           </el-form-item>
         </el-row>
       </el-form>
@@ -165,7 +174,7 @@
   </div>
 </template>
 <script>
-import { getAllGrades, postReq } from "@/api/api";
+import { getAllCourses, postReq } from "@/api/api";
 import { mapGetters } from "vuex";
 import { MessageBox, Message } from "element-ui";
 
@@ -180,16 +189,16 @@ export default {
       succDialogVisibe: false,
       tmp: {
         courseid: "",
-        coursename: "",
-        stuid: "",
-        studentname: "",
-        grade: ""
+        name: "",
+        type: "",
+        credit: ""
       },
       editing: 0,
       searchField: {
-        studentname: "",
-        coursename: "",
-        stuid: ""
+        courseid: "",
+        name: "",
+        type: "",
+        credit: ""
       },
       filter: {}
     };
@@ -211,23 +220,27 @@ export default {
     filtedData() {
       return this.list
         .filter(item => {
-          var reg = new RegExp(this.searchField.studentname, "i");
-          return !this.searchField.studentname || reg.test(item.studentname);
+          var reg = new RegExp(this.searchField.courseid, "i");
+          return !this.searchField.courseid || reg.test(item.courseid);
         })
         .filter(item => {
-          var reg = new RegExp(this.searchField.coursename, "i");
-          return !this.searchField.coursename || reg.test(item.coursename);
+          var reg = new RegExp(this.searchField.name, "i");
+          return !this.searchField.name || reg.test(item.name);
         })
         .filter(item => {
-          var reg = new RegExp(this.searchField.stuid, "i");
-          return !this.searchField.stuid || reg.test(item.stuid);
+          var reg = new RegExp(this.searchField.type, "i");
+          return !this.searchField.type || reg.test(item.type);
+        })
+        .filter(item => {
+          var reg = new RegExp(this.searchField.class, "i");
+          return !this.searchField.class || reg.test(item.class);
         });
     }
   },
   methods: {
     fetchData() {
       this.listLoading = true;
-      getAllGrades().then(response => {
+      getAllCourses().then(response => {
         this.list = response.data.items;
         this.listLoading = false;
       });
@@ -254,14 +267,13 @@ export default {
     confirmEdit(g) {
       postReq().then(e => {
         if (e.code == 20000) {
-          this.editing.grade = this.tmp.grade;
+          this.editing = this.tmp;
           this.editDialogVisible = false;
           this.tmp = {
             courseid: "",
-            coursename: "",
-            stuid: "",
-            studentname: "",
-            grade: ""
+            name: "",
+            type: "",
+            credit: ""
           };
           this.succDialogVisibe = true;
         }
@@ -274,10 +286,9 @@ export default {
         this.succDialogVisibe = true;
         this.tmp = {
           courseid: "",
-          coursename: "",
-          stuid: "",
-          studentname: "",
-          grade: ""
+          name: "",
+          type: "",
+          credit: ""
         };
       });
     }

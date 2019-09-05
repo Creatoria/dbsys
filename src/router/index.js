@@ -150,17 +150,19 @@ export const constantRoutes = [
   {
     path: '/admin_config',
     component: Layout,
+    name: 'admin_config',
+    redirect: '/admin_config',
+
     meta: { title: 'admin_config', roles: ['admin'] },
 
     children: [
       {
         path: 'index',
-        name: 'admin_config',
-        component: () => import('@/views/admin_config/index')
+        component: () => import('@/views/admin_config/index'), meta: { title: 'admin_config', roles: ['admin'] }
+
       }
     ]
   },
-
   {
     path: '/grades',
     component: Layout,
@@ -173,7 +175,22 @@ export const constantRoutes = [
       meta: { title: '成绩管理', role: ['admin'] }
     }
     ]
-  },  {
+  },
+  {
+    path: '/courses',
+    component: Layout,
+    name: 'courses',
+    redirect: '/courses',
+    meta: { roles: ['admin'], icon: 'example' },
+    children: [{
+      path: 'index',
+      component: () => import('@/views/manage_course/index'),
+      meta: { title: '课程管理', role: ['admin'] }
+    }
+    ]
+  },
+
+  {
     path: '/students',
     component: Layout,
     name: 'students',
@@ -186,7 +203,19 @@ export const constantRoutes = [
     }
     ]
   },
-
+  {
+    path: '/teachers',
+    component: Layout,
+    name: 'teachers',
+    redirect: '/teachers',
+    meta: { roles: ['admin'], icon: 'example' },
+    children: [{
+      path: 'index',
+      component: () => import('@/views/manage_teacher/index'),
+      meta: { title: '教师管理', role: ['admin'] }
+    }
+    ]
+  },
 
   // 404 page must be placed at the end !!!
   { path: '*', redirect: '/404', hidden: true }
@@ -201,7 +230,7 @@ const createRouter = () => new Router({
 const router = createRouter()
 
 // Detail see: https://github.com/vuejs/vue-router/issues/1234#issuecomment-357941465
-export function resetRouter() {
+export function resetRouter () {
   const newRouter = createRouter()
   router.matcher = newRouter.matcher // reset router
 }
