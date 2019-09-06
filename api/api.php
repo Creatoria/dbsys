@@ -19,7 +19,8 @@ $modules = array(
         'edit',
         'delete'
     ), 'stu' => array(
-        'getgrade'
+        'getgrade',
+        'getstuinfo'
     )
 );
 if (1) {
@@ -30,8 +31,10 @@ if (1) {
         session_start();
         include_once("./vendor/autoload.php");
         include_once("./config/config.php");
+        include_once('./modules/functions.php');
+
         include_once("./modules/procedures_$opt.php");
-        echo eval($subopt());
+        echo json_encode(eval('return $subopt();'));
     } catch (Exception $e) {
         echo json_encode(['success' => 0, 'mess' => $e]);
     }

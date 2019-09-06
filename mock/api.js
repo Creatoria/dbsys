@@ -14,6 +14,7 @@ const gradesData = Mock.mock({
     stuid: "@id",
     coursename: '@word',
     studentname: '@cname',
+    "year|2008-2018": 2008,
     'grade|1-100': 100
   }]
 })
@@ -34,6 +35,15 @@ const coursesData = Mock.mock({
 
   }]
 })
+const classesData = Mock.mock({
+  "items|50": [{
+    acad: '@word(1)',
+    major: '@word(1)',
+    class: "@word(2)",
+    classid: "@id"
+
+  }]
+})
 export default [
   {
     url: '/admin/getallgrades',
@@ -51,7 +61,8 @@ export default [
   }, {
     url: '/act/acts',
     type: 'post',
-    response: _ => {
+    response: config => {
+      console.log(config.body)
       return {
         code: 20000,
       }
@@ -93,6 +104,33 @@ export default [
           total: items.length,
           items: items
         }
+      }
+    }
+  }, {
+    url: '/admin/getallclass',
+    type: 'post',
+    response: config => {
+      const items = classesData.items
+      return {
+        code: 20000,
+        data: {
+          total: items.length,
+          items: items
+        }
+      }
+    }
+  },
+  {
+    url: '/stu/getgrade',
+    type: 'post',
+    response: config => {
+      const items = gradesData.items
+      return {
+        code: 20000,
+        data: {
+          total: items.length,
+          items: items,
+        },
       }
     }
   }

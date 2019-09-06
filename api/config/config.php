@@ -1,7 +1,8 @@
 <?php
-const userLevel=array(
-    'root'=>0,
-    'student'=>2
+const userLevel = array(
+    'root' => 0,
+    'admin' => 0,
+    'student' => 2
 );
 $dbConfig = array(
     'dbAddress' => 'localhost',

@@ -136,7 +136,7 @@
       <el-form>
         <el-row>
           <el-form-item label="课程号">
-            <el-input v-model="tmp.stuid"
+            <el-input v-model="tmp.courseid"
                       clearable=""></el-input>
           </el-form-item>
         </el-row>
@@ -148,7 +148,7 @@
         </el-row>
         <el-row>
           <el-form-item label="性质">
-            <el-select v-model="tmp.class"
+            <el-select v-model="tmp.type"
                        clearable="">
               <el-option value="必修">必修</el-option>
               <el-option value="选修">选修</el-option>
@@ -193,7 +193,7 @@ export default {
         type: "",
         credit: ""
       },
-      editing: 0,
+      editing: {},
       searchField: {
         courseid: "",
         name: "",
@@ -259,15 +259,14 @@ export default {
       });
     },
     edit(e) {
-      console.log(e);
       this.tmp = JSON.parse(JSON.stringify(e));
       this.editing = e;
       this.editDialogVisible = true;
     },
     confirmEdit(g) {
-      postReq().then(e => {
+      postReq({ target: this.editing._id, repr: this.tmp }).then(e => {
         if (e.code == 20000) {
-          this.editing = this.tmp;
+          this.list[this.list.indexOf(this.editing)] = this.tmp;
           this.editDialogVisible = false;
           this.tmp = {
             courseid: "",
@@ -280,7 +279,7 @@ export default {
       });
     },
     confirmAdd() {
-      postReq().then(_ => {
+      postReq(this.tmp).then(_ => {
         this.list.unshift(this.tmp);
         this.addDialogVisible = false;
         this.succDialogVisibe = true;

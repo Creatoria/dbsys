@@ -7,7 +7,7 @@ function connect($user, $db, $collection)
 {
     global $dbConfig;
     $conn = new MongoDB\Client(
-        "mongodb://" . $dbConfig[$user]['user'] . ":" . $dbConfig[$user]['password'] . "@" . $dbConfig['dbAddress'] . "/" . $dbConfig['auth_server']
+        // "mongodb://" . $dbConfig[$user]['user'] . ":" . $dbConfig[$user]['password'] . "@" . $dbConfig['dbAddress'] . "/" . $dbConfig['authDB']
     );
     $coll = $conn->selectDatabase($db)->selectCollection($collection);
     return $coll;
@@ -17,7 +17,7 @@ function check_auth($role)
     global $debug;
     global $userLevel;
     if ($debug) return true;
-    if ($_SESSION != null && $_COOKIE['token'] == $_SESSION['token'] && $userLevel[$role]>=$userLevel[$_SESSION['role']])
+    if ($_SESSION != null && $_COOKIE['token'] == $_SESSION['token'] && $userLevel[$role] >= $userLevel[$_SESSION['role']])
         return true;
     else
         return false;
@@ -29,43 +29,48 @@ function query($user, $db, $collection, $target)
     $coll = connect($user, $db, $collection);
     $res = $coll->findOne($target);
     if ($res !== null)
-        return json_encode(['results' => $res, 'code' => 20000]);
+        return  $res;
     else
-        return json_encode(['code' => 0]);
+        return 0;
 }
 function queryAll($user, $db, $collection, $target)
 {
     $coll = connect($user, $db, $collection);
-    $res = $coll->find($target);
-    if ($res !== null)
-        return json_encode(['results' => $res, 'code' => 20000]);
-    else
-        return json_encode(['code' => 0]);
+    $cur = $coll->find($target);
+    $res = array();
+
+    foreach ($cur as $line)
+        $res->push($line);
+    if ($res !== null) {
+
+        return  $res;
+    } else
+        return 0;
 }
 function insert_one($user, $db, $collection, $ar)
 {
     $coll = connect($user, $db, $collection);
     $res = $coll->insertOne($ar);
-    if ($res !== null)
-        return json_encode(['code' => 20000]);
+    if ($res->getInsertedCount())
+        return $res->getInsertedId();
     else
-        return json_encode(['code' => 0]);
+        return 0;
 }
 function update_one($user, $db, $collection, $target, $ar)
 {
     $coll = connect($user, $db, $collection);
-    $res = $coll->findOneAndUpdate($target, $ar, ['returnDocument' => MongoDB\Operation\FindOneAndUpdate::RETURN_DOCUMENT_AFTER]);
+    $res = $coll->findOneAndUpdate($target, $ar);
     if ($res !== null)
-        return json_encode($res);
+        return 1;
     else
-        return json_encode(['code' => 0]);
+        return 0;
 }
 function delete_one($user, $db, $collection, $target)
 {
     $coll = connect($user, $db, $collection);
     $res = $coll->findOneAndDelete($target);
     if ($res !== null)
-        return json_encode(['code' => 20000]);
+        return $res;
     else
-        return json_encode(['code' => 0]);
+        return 0;
 }

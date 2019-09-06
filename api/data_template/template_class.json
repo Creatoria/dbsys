@@ -1,18 +1,13 @@
 {
-    "_id": {
-        "oid": ""
-    },
-    "name": "",
-    "major": "",
-    "year": "",
-    "members": [{
-        "id": "ref student",
-        "stu_id": "",
-        "name": ""
-    }, {
-        "id": "",
-        "stu_id": "",
-        "name": ""
-    }]
+  "_id": {
+    "oid": ""
+  },
+  "name": "",
+  "major": "",
+  "year": "",
+  "acad": "",
+  "members": [
+    "id1": 'id2'
+  ]]
 
 }

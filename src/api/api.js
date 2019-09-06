@@ -41,6 +41,13 @@ export function getAllTeachers(data) {
     data
   })
 }
+export function getMyGrades(data) {
+  return request({
+    url: '/stu/getgrade',
+    method: 'post',
+    data
+  })
+}
 export function login(data) {
   return request({
     url: '/user/login',
@@ -51,6 +58,12 @@ export function login(data) {
 export function logout() {
   return request({
     url: '/user/logout',
+    method: 'post'
+  })
+}
+export function getAllClass() {
+  return request({
+    url: '/admin/getallclass',
     method: 'post'
   })
 }

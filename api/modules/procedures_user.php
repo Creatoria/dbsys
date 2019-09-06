@@ -16,15 +16,17 @@ function login()
         setcookie("token", $token, time() + 24 * 60);
         $arr = ['code' => 20000];
     }
-    return json_encode($arr);
+    return $arr;
 }
 function logout()
 {
     session_destroy();
     setcookie('token', '');
-    return json_encode(['code' => 20000]);
+    return ['code' => 20000];
 }
 function getinfo()
 {
-    return json_decode(['code' => 20000, 'role' => $_SESSION['role']]);
+    if ($_SESSION != null && $_COOKIE['token'] === $_SESSION['token'])
+        return ['code' => 20000, 'info' => ['role' => $_SESSION['role'], 'name' => $_SESSION['user'], 'avatar' => 'https://wpimg.wallstcn.com/f778738c-e4f8-4870-b634-56703b4acafe.gif']];
+    else return ['code' => 0];
 }

@@ -172,8 +172,22 @@ export const constantRoutes = [
     children: [{
       path: 'index',
       component: () => import('@/views/manage_score/index'),
-      meta: { title: '成绩管理', role: ['admin'] }
+      meta: { role: ['admin'], title: '成绩管理' }
+    },
+    {
+      path: 'class',
+      component: () => import('@/views/manage_score/class'),
+      meta: {
+        title: '班级成员'
+      },
+      hidden: true
+    }, {
+      path: 'student',
+      component: () => import('@/views/manage_score/student'),
+      meta: { title: '学生个人成绩' },
+      hidden: true
     }
+
     ]
   },
   {
@@ -189,32 +203,18 @@ export const constantRoutes = [
     }
     ]
   },
+  {
+    path: '/stugrade',
+    component: Layout,
+    name: 'stugrade',
+    redirect: '/stugrade',
+    meta: { roles: ['admin'], icon: 'example' },
+    children: [{
+      path: 'index',
+      component: () => import('@/views/stu_grade/index'),
+      meta: { title: '个人成绩', role: ['admin'] }
 
-  {
-    path: '/students',
-    component: Layout,
-    name: 'students',
-    redirect: '/students',
-    meta: { roles: ['admin'], icon: 'example' },
-    children: [{
-      path: 'index',
-      component: () => import('@/views/manage_student/index'),
-      meta: { title: '学生管理', role: ['admin'] }
-    }
-    ]
-  },
-  {
-    path: '/teachers',
-    component: Layout,
-    name: 'teachers',
-    redirect: '/teachers',
-    meta: { roles: ['admin'], icon: 'example' },
-    children: [{
-      path: 'index',
-      component: () => import('@/views/manage_teacher/index'),
-      meta: { title: '教师管理', role: ['admin'] }
-    }
-    ]
+    }]
   },
 
   // 404 page must be placed at the end !!!
@@ -230,7 +230,7 @@ const createRouter = () => new Router({
 const router = createRouter()
 
 // Detail see: https://github.com/vuejs/vue-router/issues/1234#issuecomment-357941465
-export function resetRouter () {
+export function resetRouter() {
   const newRouter = createRouter()
   router.matcher = newRouter.matcher // reset router
 }

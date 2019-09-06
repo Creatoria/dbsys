@@ -3,195 +3,69 @@
     <el-row :gutter="20">
       <el-col :span="6">
 
-        <el-input placeholder="请输入姓名以搜索"
-                  v-model="searchField.studentname"
+        <el-input placeholder="请输入学院以搜索"
+                  v-model="searchField.acad"
                   clearable="">
 
         </el-input>
       </el-col>
       <el-col :span="6">
-        <el-input placeholder="请输入课程以搜索"
-                  v-model="searchField.coursename"
+        <el-input placeholder="请输入专业以搜索"
+                  v-model="searchField.major"
                   clearable="">
 
         </el-input>
-      </el-col>
-      <el-col :span="6">
-        <el-input placeholder="请输入学号以搜索"
-                  v-model="searchField.stuid"
-                  clearable="">
-
-        </el-input>
-      </el-col>
-      <el-col :span="2">
-        <el-button @click="addDialogVisible=true"
-                   icon="el-icon-circle-plus-outline">添加</el-button>
       </el-col>
       <el-col :span="2">
         <el-button icon="el-icon-refresh"
                    type="primary"
                    @click="fetchData"></el-button>
       </el-col>
-
     </el-row>
-    <el-row>
-      <el-table :data="filtedData"
-                v-loading='listLoading'
-                element-loading-text="Loading"
-                border
-                fit
-                highlight-current-row>
-        <el-table-column label="课程">
-          <template slot-scope="scope">{{scope.row.coursename}}</template>
-        </el-table-column>
-        <el-table-column label="学号">
-          <template slot-scope="scope">{{scope.row.stuid}}</template>
-        </el-table-column>
-        <el-table-column label="姓名">
-          <template slot-scope="scope">{{scope.row.studentname}}</template>
-        </el-table-column>
-        <el-table-column label="成绩">
-          <template slot-scope="scope">{{scope.row.grade}}</template>
-        </el-table-column>
-        <el-table-column label='操作'>
-          <template slot-scope="scope">
-            <el-button @click="edit(scope.row)"
-                       icon="el-icon-edit">编辑</el-button>
-            <el-button type="danger"
-                       @click="confirmDel(scope)"
-                       icon="el-icon-delete">删除</el-button>
-          </template>
-        </el-table-column>
-      </el-table>
-    </el-row>
-    <el-dialog title="提示"
-               :visible.sync="deleDialogVisible"
-               width="30%">
-      <span>确认要删除吗</span>
-      <span slot="footer"
-            class="dialog-footer">
-        <el-button @click="deleDialogVisible = false">取 消</el-button>
-        <el-button type="danger"
-                   @click="del">确 定</el-button>
-      </span>
-    </el-dialog>
-
-    <el-dialog title="编辑"
-               :visible.sync="editDialogVisible">
-      <el-form>
-        <el-row>
-          <el-form-item label="课程号">
-            <el-input v-model="tmp.courseid"
-                      disabled=""></el-input>
-          </el-form-item>
-        </el-row>
-        <el-row>
-          <el-form-item label="课程">
-            <el-input v-model="tmp.coursename"
-                      disabled=""></el-input>
-          </el-form-item>
-        </el-row>
-        <el-row>
-          <el-form-item label="学号">
-            <el-input v-model="tmp.stuid"
-                      disabled=""></el-input>
-          </el-form-item>
-        </el-row>
-        <el-row>
-          <el-form-item label="姓名">
-            <el-input v-model="tmp.studentname"
-                      disabled=""></el-input>
-          </el-form-item>
-        </el-row>
-        <el-row>
-          <el-form-item label="成绩">
-            <el-input v-model="tmp.grade"
-                      clearable=""></el-input>
-          </el-form-item>
-        </el-row>
-      </el-form>
-      <div slot="footer"
-           class="dialog-footer">
-        <el-button @click="editDialogVisible = false">取 消</el-button>
-        <el-button type="primary"
-                   @click="confirmEdit">确 定</el-button>
-      </div>
-    </el-dialog>
-    <el-dialog :visible.sync="succDialogVisibe"
-               title="提示">
-      <span>操作成功</span>
-      <span slot="footer"
-            class="dialog-footer">
-        <el-button type="primary"
-                   @click="succDialogVisibe = false">确 定</el-button>
-      </span>
-    </el-dialog>
-    <el-dialog :visible.sync='addDialogVisible'
-               title="添加">
-      <el-form>
-        <el-row>
-          <el-form-item label="课程号">
-            <el-input v-model="tmp.courseid"></el-input>
-          </el-form-item>
-        </el-row>
-        <el-row>
-          <el-form-item label="课程">
-            <el-input v-model="tmp.coursename"></el-input>
-          </el-form-item>
-        </el-row>
-        <el-row>
-          <el-form-item label="学号">
-            <el-input v-model="tmp.stuid"></el-input>
-          </el-form-item>
-        </el-row>
-        <el-row>
-          <el-form-item label="姓名">
-            <el-input v-model="tmp.studentname"></el-input>
-          </el-form-item>
-        </el-row>
-        <el-row>
-          <el-form-item label="成绩">
-            <el-input v-model="tmp.grade"></el-input>
-          </el-form-item>
-        </el-row>
-      </el-form>
-      <div slot="footer"
-           class="dialog-footer">
-        <el-button @click="addDialogVisible = false">取 消</el-button>
-        <el-button type="primary"
-                   @click="confirmAdd">确 定</el-button>
-      </div>
-    </el-dialog>
+    <el-table v-loading="listLoading"
+              :data="filtedData"
+              element-loading-text="Loading"
+              border
+              fit
+              highlight-current-row>
+      <el-table-column align="center"
+                       label="班级">
+        <template slot-scope="scope">
+          {{scope.row.class}}
+        </template>
+      </el-table-column>
+      <el-table-column align="center"
+                       label="专业">
+        <template slot-scope="scope">
+          {{scope.row.major}}
+        </template>
+      </el-table-column>
+      <el-table-column align="center"
+                       label="学院">
+        <template slot-scope="scope">
+          {{scope.row.acad}}
+        </template>
+      </el-table-column>
+      <el-table-column><template slot-scope="scope">
+          <el-button @click="go(scope.row.classid)">查看学生</el-button>
+        </template></el-table-column>
+    </el-table>
   </div>
 </template>
+
 <script>
-import { getAllGrades, postReq } from "@/api/api";
+import { getAllClass } from "@/api/api";
 import { mapGetters } from "vuex";
 import { MessageBox, Message } from "element-ui";
-
 export default {
   data() {
     return {
       list: null,
-      listLoading: true,
-      addDialogVisible: false,
-      editDialogVisible: false,
-      deleDialogVisible: false,
-      succDialogVisibe: false,
-      tmp: {
-        courseid: "",
-        coursename: "",
-        stuid: "",
-        studentname: "",
-        grade: ""
-      },
-      editing: 0,
+      listLoading: false,
       searchField: {
-        studentname: "",
-        coursename: "",
-        stuid: ""
-      },
-      filter: {}
+        major: "",
+        acad: ""
+      }
     };
   },
   created() {
@@ -207,79 +81,30 @@ export default {
       });
     }
   },
-  computed: {
-    filtedData() {
-      return this.list
-        .filter(item => {
-          var reg = new RegExp(this.searchField.studentname, "i");
-          return !this.searchField.studentname || reg.test(item.studentname);
-        })
-        .filter(item => {
-          var reg = new RegExp(this.searchField.coursename, "i");
-          return !this.searchField.coursename || reg.test(item.coursename);
-        })
-        .filter(item => {
-          var reg = new RegExp(this.searchField.stuid, "i");
-          return !this.searchField.stuid || reg.test(item.stuid);
-        });
-    }
-  },
   methods: {
     fetchData() {
       this.listLoading = true;
-      getAllGrades().then(response => {
+      getAllClass().then(response => {
         this.list = response.data.items;
         this.listLoading = false;
       });
     },
-    confirmDel(e) {
-      this.deleDialogVisible = true;
-      this.editing = e;
-    },
-    del() {
-      postReq().then(_ => {
-        if (_.code === 20000) {
-          this.list.splice(this.list.indexOf(this.editing.row), 1);
-          this.deleDialogVisible = false;
-          this.succDialogVisibe = true;
-        }
-      });
-    },
-    edit(e) {
-      console.log(e);
-      this.tmp = JSON.parse(JSON.stringify(e));
-      this.editing = e;
-      this.editDialogVisible = true;
-    },
-    confirmEdit(g) {
-      postReq().then(e => {
-        if (e.code == 20000) {
-          this.editing.grade = this.tmp.grade;
-          this.editDialogVisible = false;
-          this.tmp = {
-            courseid: "",
-            coursename: "",
-            stuid: "",
-            studentname: "",
-            grade: ""
-          };
-          this.succDialogVisibe = true;
-        }
-      });
-    },
-    confirmAdd() {
-      postReq().then(_ => {
-        this.list.unshift(this.tmp);
-        this.addDialogVisible = false;
-        this.succDialogVisibe = true;
-        this.tmp = {
-          courseid: "",
-          coursename: "",
-          stuid: "",
-          studentname: "",
-          grade: ""
-        };
-      });
+    go(e) {
+      var dir = "/grades/class?classid=" + e;
+      this.$router.push({ path: dir });
+    }
+  },
+  computed: {
+    filtedData() {
+      return this.list
+        .filter(item => {
+          var reg = new RegExp(this.searchField.acad, "i");
+          return !this.searchField.acad || reg.test(item.acad);
+        })
+        .filter(item => {
+          var reg = new RegExp(this.searchField.major, "i");
+          return !this.searchField.major || reg.test(item.major);
+        });
     }
   }
 };
