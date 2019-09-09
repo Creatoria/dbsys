@@ -55,40 +55,40 @@ export const constantRoutes = [
     }]
   },
 
-  {
-    path: '/example',
-    component: Layout,
-    redirect: '/example/table',
-    name: 'Example',
-    meta: { title: 'Example', icon: 'example' },
-    children: [
-      {
-        path: 'table',
-        name: 'Table',
-        component: () => import('@/views/table/index'),
-        meta: { title: 'Table', icon: 'table' }
-      },
-      {
-        path: 'tree',
-        name: 'Tree',
-        component: () => import('@/views/tree/index'),
-        meta: { title: 'Tree', icon: 'tree' }
-      }
-    ]
-  },
+  // {
+  //   path: '/example',
+  //   component: Layout,
+  //   redirect: '/example/table',
+  //   name: 'Example',
+  //   meta: { title: 'Example', icon: 'example' },
+  //   children: [
+  //     {
+  //       path: 'table',
+  //       name: 'Table',
+  //       component: () => import('@/views/table/index'),
+  //       meta: { title: 'Table', icon: 'table' }
+  //     },
+  //     {
+  //       path: 'tree',
+  //       name: 'Tree',
+  //       component: () => import('@/views/tree/index'),
+  //       meta: { title: 'Tree', icon: 'tree' }
+  //     }
+  //   ]
+  // },
 
-  {
-    path: '/form',
-    component: Layout,
-    children: [
-      {
-        path: 'index',
-        name: 'Form',
-        component: () => import('@/views/form/index'),
-        meta: { title: 'Form', icon: 'form' }
-      }
-    ]
-  },
+  // {
+  //   path: '/form',
+  //   component: Layout,
+  //   children: [
+  //     {
+  //       path: 'index',
+  //       name: 'Form',
+  //       component: () => import('@/views/form/index'),
+  //       meta: { title: 'Form', icon: 'form' }
+  //     }
+  //   ]
+  // },
 
   // {
   //   path: '/nested',
@@ -147,22 +147,22 @@ export const constantRoutes = [
   //     }
   //   ]
   // },
-  {
-    path: '/admin_config',
-    component: Layout,
-    name: 'admin_config',
-    redirect: '/admin_config',
+  // {
+  //   path: '/admin_config',
+  //   component: Layout,
+  //   name: 'admin_config',
+  //   redirect: '/admin_config',
 
-    meta: { title: 'admin_config', roles: ['admin'] },
+  //   meta: { title: 'admin_config', roles: ['admin'] },
 
-    children: [
-      {
-        path: 'index',
-        component: () => import('@/views/admin_config/index'), meta: { title: 'admin_config', roles: ['admin'] }
+  //   children: [
+  //     {
+  //       path: 'index',
+  //       component: () => import('@/views/admin_config/index'), meta: { title: 'admin_config', roles: ['admin'] }
 
-      }
-    ]
-  },
+  //     }
+  //   ]
+  // },
   {
     path: '/grades',
     component: Layout,
@@ -230,7 +230,7 @@ const createRouter = () => new Router({
 const router = createRouter()
 
 // Detail see: https://github.com/vuejs/vue-router/issues/1234#issuecomment-357941465
-export function resetRouter() {
+export function resetRouter () {
   const newRouter = createRouter()
   router.matcher = newRouter.matcher // reset router
 }
