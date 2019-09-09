@@ -11,7 +11,7 @@ const service = axios.create({
     'Content-Type': 'application/x-www-form-urlencoded',
     'Accept': '*/*'
   },
-  transformRequest: [function (data) {
+  transformRequest: [function(data) {
     console.log(data)
     return qs.stringify(data)
   }],

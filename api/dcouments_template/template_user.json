@@ -1,4 +1,5 @@
 {
+  "uid": "primary",
   "user": "",
   "password": "",
   "role": ["admin", "student", "etc"]

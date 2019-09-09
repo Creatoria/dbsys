@@ -2,33 +2,43 @@
   <div class="app-container">
     <el-row :gutter="20">
       <el-col :span="6">
-        <el-input v-model="searchField.coursename"
-                  placeholder="请输入课程以搜索"
-                  clearable="" />
+        <el-input
+          v-model="searchField.coursename"
+          placeholder="请输入课程以搜索"
+          clearable=""
+        />
       </el-col>
       <el-col :span="6">
-        <el-input v-model="searchField.year"
-                  placeholder="请输入年份以搜索"
-                  clearable="" />
+        <el-input
+          v-model="searchField.year"
+          placeholder="请输入年份以搜索"
+          clearable=""
+        />
       </el-col>
       <el-col :span="2">
-        <el-button icon="el-icon-circle-plus-outline"
-                   @click="addDialogVisible=true">添加</el-button>
+        <el-button
+          icon="el-icon-circle-plus-outline"
+          @click="addDialogVisible=true"
+        >添加</el-button>
       </el-col>
       <el-col :span="2">
-        <el-button icon="el-icon-refresh"
-                   type="primary"
-                   @click="fetchData" />
+        <el-button
+          icon="el-icon-refresh"
+          type="primary"
+          @click="fetchData"
+        />
       </el-col>
 
     </el-row>
     <el-row>
-      <el-table v-loading="listLoading"
-                :data="filtedData"
-                element-loading-text="Loading"
-                border
-                fit
-                highlight-current-row>
+      <el-table
+        v-loading="listLoading"
+        :data="filtedData"
+        element-loading-text="Loading"
+        border
+        fit
+        highlight-current-row
+      >
         <el-table-column label="课程">
           <template slot-scope="scope">{{ scope.row.coursename }}</template>
         </el-table-column>
@@ -44,9 +54,9 @@
   </div>
 </template>
 <script>
-import { getMyGrades, postReq } from "@/api/api";
-import { mapGetters } from "vuex";
-import { MessageBox, Message } from "element-ui";
+import { getMyGrades, postReq } from '@/api/api'
+import { mapGetters } from 'vuex'
+import { MessageBox, Message } from 'element-ui'
 
 export default {
   data() {
@@ -54,59 +64,56 @@ export default {
       list: null,
       listLoading: true,
       searchField: {
-        coursename: "",
-        year: ""
+        coursename: '',
+        year: ''
       },
       filter: {}
-    };
+    }
   },
   computed: {
     filtedData() {
       return this.list
         .filter(item => {
-          var reg = new RegExp(this.searchField.coursename, "i");
-          return !this.searchField.coursename || reg.test(item.coursename);
+          var reg = new RegExp(this.searchField.coursename, 'i')
+          return !this.searchField.coursename || reg.test(item.coursename)
         })
         .filter(item => {
-          var reg = new RegExp(this.searchField.year, "i");
-          return !this.searchField.year || reg.test(item.year);
-        });
+          var reg = new RegExp(this.searchField.year, 'i')
+          return !this.searchField.year || reg.test(item.year)
+        })
     }
   },
   created() {
-    if (this.$store.getters.role.indexOf("admin") >= 0 && 0) {
-      this.$alert("当前为管理员身份，即将重定向到管理页面。").then(() => {
-        this.$router.push({ path: "/grades/index" });
-      });
-    } else if (
-      1
-      // this.$store.getters.role.indexOf("student") >= 0
-    ) {
-      this.fetchData(this.$route.query.stuid);
+    if (this.$store.getters.role.indexOf('admin') >= 0) {
+      this.$alert('当前为管理员身份，即将重定向到管理页面。').then(() => {
+        this.$router.push({ path: '/grades/index' })
+      })
+    } else if (this.$store.getters.role.indexOf('student') >= 0) {
+      this.fetchData(this.$route.query.stuid)
     } else {
-      MessageBox.confirm("没有权限访问此页面", {
-        type: "warning",
+      MessageBox.confirm('没有权限访问此页面', {
+        type: 'warning',
         showClose: false,
         showCancelButton: false
       }).then(() => {
-        this.$router.go(-1);
-      });
+        this.$router.go(-1)
+      })
     }
   },
   methods: {
     isred: function(e) {
-      return { red: e < 60 };
+      return { red: e < 60 }
     },
 
     fetchData(e) {
-      this.listLoading = true;
+      this.listLoading = true
       getMyGrades({ stuid: e }).then(response => {
-        this.list = response.data.items;
-        this.listLoading = false;
-      });
+        this.list = response.data.items
+        this.listLoading = false
+      })
     }
   }
-};
+}
 </script>
 
 <style>

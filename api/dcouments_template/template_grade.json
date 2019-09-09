@@ -1,10 +1,8 @@
 {
-    "_id": {
 
-    },
-    "course_id": "",
-    "stu_id": "",
-    "grade": "",
-    "semester": ""
-
+  "course_id": "",
+  "stu_id": "",
+  "grade": "",
+  "semester": "",
+  "remark": "use objectid as primary"
 }
