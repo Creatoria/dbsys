@@ -1,0 +1,16 @@
+{
+  "_id": {
+    "oid": ""
+  },
+  "stuid": "",
+  "name": "",
+  "sex": "",
+  "age": "",
+  "birth": "",
+  "home": "",
+  "major": "",
+  "class": "",
+  "contact": "",
+  "avatar": "",
+  "grades": ["gradeid1", "gradeid2"]
+}

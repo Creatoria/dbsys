@@ -1,14 +1,17 @@
 <template>
   <div class="app-container">
-    <el-table v-loading="listLoading"
-              :data="list"
-              element-loading-text="Loading"
-              border
-              fit
-              highlight-current-row>
-      <el-table-column align="center"
-                       label="ID"
-                       >
+    <el-table
+      v-loading="listLoading"
+      :data="list"
+      element-loading-text="Loading"
+      border
+      fit
+      highlight-current-row
+    >
+      <el-table-column
+        align="center"
+        label="ID"
+      >
         <template slot-scope="scope">
           {{ scope.row.id }}
         </template>
@@ -27,7 +30,7 @@
   </div>
 </template>
 <script>
-import { getList } from "@/api/sysdata";
+import { getList } from '@/api/sysdata'
 
 export default {
   //   filters: {
@@ -44,19 +47,19 @@ export default {
     return {
       list: null,
       listLoading: true
-    };
+    }
   },
   created() {
-    this.fetchData();
+    this.fetchData()
   },
   methods: {
     fetchData() {
-      this.listLoading = true;
+      this.listLoading = true
       getList().then(response => {
-        this.list = response.data.items;
-        this.listLoading = false;
-      });
+        this.list = response.data.items
+        this.listLoading = false
+      })
     }
   }
-};
+}
 </script>

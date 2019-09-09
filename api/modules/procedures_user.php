@@ -3,20 +3,20 @@ include_once("functions.php");
 
 function login()
 {
-    extract($_POST);
+    if (!$_POST) {
+        return ['code' => 0];
+    }
     $coll = connect('dbReader', 'default', 'users');
-    $cursor = $coll->findOne(['user' => $user, 'password' => $password]);
+    $cursor = $coll->findOne($_POST);
     if ($cursor === NULL)
-        $arr = ['code' => 0];
+        return ['code' => 0];
     else {
         $token = genToken();
-        $_SESSION['user'] = $user;
+        $_SESSION['user'] = $_POST['user'];
         $_SESSION['token'] = $token;
-        $_SESSION['role'] = $cursor['role'];
-        setcookie("token", $token, time() + 24 * 60);
-        $arr = ['code' => 20000];
+        $_SESSION['role'] = json_decode(json_encode($cursor['role']));
+        return ['code' => 20000, 'role' => $cursor['role'], 'token' => $token, 'sid' => session_id()];
     }
-    return $arr;
 }
 function logout()
 {
@@ -26,7 +26,7 @@ function logout()
 }
 function getinfo()
 {
-    if ($_SESSION != null && $_COOKIE['token'] === $_SESSION['token'])
+    if ($_SESSION != null && $_POST['token'] === $_SESSION['token'])
         return ['code' => 20000, 'info' => ['role' => $_SESSION['role'], 'name' => $_SESSION['user'], 'avatar' => 'https://wpimg.wallstcn.com/f778738c-e4f8-4870-b634-56703b4acafe.gif']];
     else return ['code' => 0];
 }

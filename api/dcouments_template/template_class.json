@@ -6,8 +6,8 @@
   "major": "",
   "year": "",
   "acad": "",
-  "members": [
-    "id1": 'id2'
-  ]]
+  "students": [
+    "id1", "id2"
+  ]
 
 }

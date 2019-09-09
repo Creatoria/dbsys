@@ -31,8 +31,9 @@ export default [
     url: '/user/login',
     type: 'post',
     response: config => {
-      const { username } = config.body
-      const token = tokens[username]
+      console.log(config.body)
+      const { user } = config.body
+      const token = tokens[user]
 
       // mock error
       if (!token) {
@@ -52,9 +53,9 @@ export default [
   // get user info
   {
     url: '/user/info\.*',
-    type: 'get',
+    type: 'post',
     response: config => {
-      const { token } = config.query
+      const { token } = config.body
       const info = users[token]
 
       // mock error

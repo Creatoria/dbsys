@@ -3,10 +3,11 @@ import { getToken, setToken, removeToken } from '@/utils/auth'
 import { resetRouter } from '@/router'
 
 const state = {
-  token: getToken(),
+  token: '',
   name: '',
   avatar: '',
-  role: ''
+  role: '',
+  sid: ''
 }
 
 const mutations = {
@@ -21,20 +22,22 @@ const mutations = {
   },
   SET_ROLE: (state, role) => {
     state.role = role
+  },
+  SET_SID: (state, sid) => {
+    state.sid = sid
   }
 }
 
 const actions = {
   // user login
   login({ commit }, userInfo) {
-    const { username, password } = userInfo
+    const { user, password } = userInfo
     return new Promise((resolve, reject) => {
-      login({ username: username.trim(), password: password }).then(response => {
-        const { data } = response
-        console.log(data)
-        commit('SET_TOKEN', data.token)
-        setToken(data.token)
-        // commit('SET_ROLE',data.roles)
+      login({ user: user.trim(), password: password }).then(response => {
+        commit('SET_TOKEN', response.token)
+        setToken(response.token)
+        commit('SET_ROLE', response.role)
+        commit('SET_SID', response.sid)
         resolve()
       }).catch(error => {
         reject(error)
@@ -45,20 +48,20 @@ const actions = {
   // get user info
   getInfo({ commit, state }) {
     return new Promise((resolve, reject) => {
-      getInfo(state.token).then(response => {
-        const { data } = response
-
+      getInfo(state.token, state.sid).then(response => {
+        const data = response.info
         if (!data) {
           reject('Verification failed, please Login again.')
         }
 
-        const { name, avatar, roles } = data
+        const { name, avatar, role } = data
 
         commit('SET_NAME', name)
         commit('SET_AVATAR', avatar)
-        commit('SET_ROLE', roles)
+        commit('SET_ROLE', role)
         resolve(data)
       }).catch(error => {
+        console.log(error)
         reject(error)
       })
     })

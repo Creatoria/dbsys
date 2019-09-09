@@ -2,19 +2,15 @@
   <div class="app-container">
     <el-row :gutter="20">
       <el-col :span="6">
-        <el-input placeholder="请输入课程号以搜索"
-                  v-model="searchField.courseid"
-                  clearable="">
-
-        </el-input>
+        <el-input v-model="searchField.courseid"
+                  placeholder="请输入课程号以搜索"
+                  clearable="" />
       </el-col>
       <el-col :span="6">
 
-        <el-input placeholder="请输入课程名以搜索"
-                  v-model="searchField.name"
-                  clearable="">
-
-        </el-input>
+        <el-input v-model="searchField.name"
+                  placeholder="请输入课程名以搜索"
+                  clearable="" />
       </el-col>
       <el-col :span="4">
 
@@ -27,42 +23,42 @@
         </el-select>
       </el-col>
       <el-col :span="2">
-        <el-button @click="addDialogVisible=true"
-                   icon="el-icon-circle-plus-outline">添加</el-button>
+        <el-button icon="el-icon-circle-plus-outline"
+                   @click="addDialogVisible=true">添加</el-button>
       </el-col>
       <el-col :span="2">
         <el-button icon="el-icon-refresh"
                    type="primary"
-                   @click="fetchData"></el-button>
+                   @click="fetchData" />
       </el-col>
     </el-row>
     <el-row>
-      <el-table :data="filtedData"
-                v-loading='listLoading'
+      <el-table v-loading="listLoading"
+                :data="filtedData"
                 element-loading-text="Loading"
                 border
                 fit
                 highlight-current-row>
         <el-table-column label="课程号">
-          <template slot-scope="scope">{{scope.row.courseid}}</template>
+          <template slot-scope="scope">{{ scope.row.courseid }}</template>
         </el-table-column>
         <el-table-column label="课程名">
-          <template slot-scope="scope">{{scope.row.name}}</template>
+          <template slot-scope="scope">{{ scope.row.name }}</template>
         </el-table-column>
         <el-table-column label="性质">
-          <template slot-scope="scope">{{scope.row.type}}</template>
+          <template slot-scope="scope">{{ scope.row.type }}</template>
         </el-table-column>
         <el-table-column label="学分">
-          <template slot-scope="scope">{{scope.row.credit}}</template>
+          <template slot-scope="scope">{{ scope.row.credit }}</template>
         </el-table-column>
 
-        <el-table-column label='操作'>
+        <el-table-column label="操作">
           <template slot-scope="scope">
-            <el-button @click="edit(scope.row)"
-                       icon="el-icon-edit">编辑</el-button>
+            <el-button icon="el-icon-edit"
+                       @click="edit(scope.row)">编辑</el-button>
             <el-button type="danger"
-                       @click="confirmDel(scope)"
-                       icon="el-icon-delete">删除</el-button>
+                       icon="el-icon-delete"
+                       @click="confirmDel(scope.row)">删除</el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -86,13 +82,13 @@
         <el-row>
           <el-form-item label="课程号">
             <el-input v-model="tmp.courseid"
-                      clearable=""></el-input>
+                      clearable="" />
           </el-form-item>
         </el-row>
         <el-row>
           <el-form-item label="课程名">
             <el-input v-model="tmp.name"
-                      clearable=""></el-input>
+                      clearable="" />
           </el-form-item>
         </el-row>
         <el-row>
@@ -108,9 +104,7 @@
         <el-row>
           <el-form-item label="学分">
             <el-input v-model="tmp.credit"
-                      clearable="">
-
-            </el-input>
+                      clearable="" />
           </el-form-item>
         </el-row>
 
@@ -131,19 +125,19 @@
                    @click="succDialogVisibe = false">确 定</el-button>
       </span>
     </el-dialog>
-    <el-dialog :visible.sync='addDialogVisible'
+    <el-dialog :visible.sync="addDialogVisible"
                title="添加">
       <el-form>
         <el-row>
           <el-form-item label="课程号">
             <el-input v-model="tmp.courseid"
-                      clearable=""></el-input>
+                      clearable="" />
           </el-form-item>
         </el-row>
         <el-row>
           <el-form-item label="课程名">
             <el-input v-model="tmp.name"
-                      clearable=""></el-input>
+                      clearable="" />
           </el-form-item>
         </el-row>
         <el-row>
@@ -158,9 +152,7 @@
         <el-row>
           <el-form-item label="学分">
             <el-input v-model="tmp.credit"
-                      clearable="">
-
-            </el-input>
+                      clearable="" />
           </el-form-item>
         </el-row>
       </el-form>
@@ -174,7 +166,7 @@
   </div>
 </template>
 <script>
-import { getAllCourses, postReq } from "@/api/api";
+import { getAllCourses, addCourse, editCourse, delCourse } from "@/api/api";
 import { mapGetters } from "vuex";
 import { MessageBox, Message } from "element-ui";
 
@@ -203,19 +195,6 @@ export default {
       filter: {}
     };
   },
-  created() {
-    if (this.$store.getters.role.indexOf("admin") >= 0) {
-      this.fetchData();
-    } else {
-      MessageBox.confirm("没有权限访问此页面", {
-        type: "warning",
-        showClose: false,
-        showCancelButton: false
-      }).then(() => {
-        this.$router.go(-1);
-      });
-    }
-  },
   computed: {
     filtedData() {
       return this.list
@@ -237,24 +216,44 @@ export default {
         });
     }
   },
+  created() {
+    if (this.$store.getters.role.indexOf("admin") >= 0) {
+      this.fetchData();
+    } else {
+      MessageBox.confirm("没有权限访问此页面", {
+        type: "warning",
+        showClose: false,
+        showCancelButton: false
+      }).then(() => {
+        this.$router.go(-1);
+      });
+    }
+  },
   methods: {
     fetchData() {
       this.listLoading = true;
-      getAllCourses().then(response => {
-        this.list = response.data.items;
-        this.listLoading = false;
-      });
+      getAllCourses(this.$store.getters.token, this.$store.getters.sid).then(
+        response => {
+          this.list = response.items;
+          this.listLoading = false;
+        }
+      );
     },
     confirmDel(e) {
       this.deleDialogVisible = true;
       this.editing = e;
     },
     del() {
-      postReq().then(_ => {
+      delCourse(
+        this.$store.getters.token,
+        this.$store.getters.sid,
+        this.editing
+      ).then(_ => {
+        this.deleDialogVisible = false;
         if (_.code === 20000) {
-          this.list.splice(this.list.indexOf(this.editing.row), 1);
-          this.deleDialogVisible = false;
-          this.succDialogVisibe = true;
+          this.$alert("操作成功").then(() => {
+            this.fetchData();
+          });
         }
       });
     },
@@ -264,31 +263,38 @@ export default {
       this.editDialogVisible = true;
     },
     confirmEdit(g) {
-      postReq({ target: this.editing._id, repr: this.tmp }).then(e => {
+      editCourse(
+        this.$store.getters.token,
+        this.$store.getters.sid,
+        this.editing,
+        this.tmp
+      ).then(e => {
         if (e.code == 20000) {
-          this.list[this.list.indexOf(this.editing)] = this.tmp;
           this.editDialogVisible = false;
-          this.tmp = {
-            courseid: "",
-            name: "",
-            type: "",
-            credit: ""
-          };
-          this.succDialogVisibe = true;
+          this.$alert("操作成功").then(() => {
+            this.fetchData();
+          });
         }
       });
     },
     confirmAdd() {
-      postReq(this.tmp).then(_ => {
-        this.list.unshift(this.tmp);
-        this.addDialogVisible = false;
-        this.succDialogVisibe = true;
+      addCourse(
+        this.$store.getters.token,
+        this.$store.getters.sid,
+        this.tmp
+      ).then(e => {
         this.tmp = {
           courseid: "",
           name: "",
           type: "",
           credit: ""
         };
+        if (e.code == 20000) {
+          this.addDialogVisible = false;
+          this.$alert("操作成功").then(() => {
+            this.fetchData();
+          });
+        }
       });
     }
   }

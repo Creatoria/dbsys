@@ -3,23 +3,19 @@
     <el-row :gutter="20">
       <el-col :span="6">
 
-        <el-input placeholder="请输入学院以搜索"
-                  v-model="searchField.acad"
-                  clearable="">
-
-        </el-input>
+        <el-input v-model="searchField.acad"
+                  placeholder="请输入学院以搜索"
+                  clearable="" />
       </el-col>
       <el-col :span="6">
-        <el-input placeholder="请输入专业以搜索"
-                  v-model="searchField.major"
-                  clearable="">
-
-        </el-input>
+        <el-input v-model="searchField.major"
+                  placeholder="请输入专业以搜索"
+                  clearable="" />
       </el-col>
       <el-col :span="2">
         <el-button icon="el-icon-refresh"
                    type="primary"
-                   @click="fetchData"></el-button>
+                   @click="fetchData" />
       </el-col>
     </el-row>
     <el-table v-loading="listLoading"
@@ -31,19 +27,19 @@
       <el-table-column align="center"
                        label="班级">
         <template slot-scope="scope">
-          {{scope.row.class}}
+          {{ scope.row.class }}
         </template>
       </el-table-column>
       <el-table-column align="center"
                        label="专业">
         <template slot-scope="scope">
-          {{scope.row.major}}
+          {{ scope.row.major }}
         </template>
       </el-table-column>
       <el-table-column align="center"
                        label="学院">
         <template slot-scope="scope">
-          {{scope.row.acad}}
+          {{ scope.row.acad }}
         </template>
       </el-table-column>
       <el-table-column><template slot-scope="scope">
@@ -68,6 +64,19 @@ export default {
       }
     };
   },
+  computed: {
+    filtedData() {
+      return this.list
+        .filter(item => {
+          var reg = new RegExp(this.searchField.acad, "i");
+          return !this.searchField.acad || reg.test(item.acad);
+        })
+        .filter(item => {
+          var reg = new RegExp(this.searchField.major, "i");
+          return !this.searchField.major || reg.test(item.major);
+        });
+    }
+  },
   created() {
     if (this.$store.getters.role.indexOf("admin") >= 0) {
       this.fetchData();
@@ -84,27 +93,16 @@ export default {
   methods: {
     fetchData() {
       this.listLoading = true;
-      getAllClass().then(response => {
-        this.list = response.data.items;
-        this.listLoading = false;
-      });
+      getAllClass(this.$store.getters.token, this.$store.getters.sid).then(
+        response => {
+          this.list = response.items;
+          this.listLoading = false;
+        }
+      );
     },
     go(e) {
       var dir = "/grades/class?classid=" + e;
       this.$router.push({ path: dir });
-    }
-  },
-  computed: {
-    filtedData() {
-      return this.list
-        .filter(item => {
-          var reg = new RegExp(this.searchField.acad, "i");
-          return !this.searchField.acad || reg.test(item.acad);
-        })
-        .filter(item => {
-          var reg = new RegExp(this.searchField.major, "i");
-          return !this.searchField.major || reg.test(item.major);
-        });
     }
   }
 };

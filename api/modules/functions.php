@@ -17,7 +17,7 @@ function check_auth($role)
     global $debug;
     global $userLevel;
     if ($debug) return true;
-    if ($_SESSION != null && $_COOKIE['token'] == $_SESSION['token'] && $userLevel[$role] >= $userLevel[$_SESSION['role']])
+    if ($_SESSION != null && $_POST['token'] == $_SESSION['token'] && $userLevel[$role] >= $userLevel[$_SESSION['role']])
         return true;
     else
         return false;
@@ -40,7 +40,7 @@ function queryAll($user, $db, $collection, $target)
     $res = array();
 
     foreach ($cur as $line)
-        $res->push($line);
+        array_push($res, $line);
     if ($res !== null) {
 
         return  $res;
@@ -52,7 +52,7 @@ function insert_one($user, $db, $collection, $ar)
     $coll = connect($user, $db, $collection);
     $res = $coll->insertOne($ar);
     if ($res->getInsertedCount())
-        return $res->getInsertedId();
+        return $coll->findOne(['_id' => $res->getInsertedId()]);
     else
         return 0;
 }
